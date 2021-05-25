@@ -10,7 +10,7 @@ def main():
         try:
             asn = bytes(i, encoding='ASCII')
             print(f'это слово возможно записать в байтовом типе {asn}')
-        except Exception as ans:
+        except Exception:
             print(f'это слово невозможно записать в байтовом типе "{i}"')
 
 
