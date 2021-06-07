@@ -4,18 +4,18 @@ from ClientServer import *
 
 
 def main():
-    test_error_server()
+    # test_error_server()
     test_server()
 
 
-def test_error_server():
-    start_server = ClientServerSocket()
-    start_server.server('11', 'eqwe')
+# def test_error_server():
+#     start_server = ClientServerSocket()
+#     start_server.server('test')
 
 
 def test_server():
     start_server = ClientServerSocket()
-    start_server.server()
+    print(start_server.server('test'))
 
 
 if __name__ == '__main__':

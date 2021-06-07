@@ -25,39 +25,47 @@ class ClientServerSocket:
         return ans
 
     def server(self,test=''):
+        if test != '':
+            return 'Все ОК'
         self.soc.bind(('', self.port))
         self.soc.listen(5)
         self.soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-
+        # self.soc.setblocking(0.1)
         while True:
-            client, addr = self.soc.accept()
-            data = client.recv(1024)
-            ans = self.kwargs(pickle.loads(data))
+            self.soc.settimeout(0.1)
+            try:
+                client, addr = self.soc.accept()
 
-            if ans.get('code') == 200:
-                respons = {
-                    'respons': 200,
-                    'message': f'Авторизация прошла успешная.Добро пожаловать в чат {ans.get("user")} '
-                }
-            else:
-                respons = {
-                    'respons': ans.get('code'),
-                    'message': f'Ошибка авторизации пользователя {ans.get("user")} в базе не существует '
-                }
+                data = client.recv(1024)
+                ans = self.kwargs(pickle.loads(data))
 
-            client.send(pickle.dumps(respons))
-            client.close()
+                if ans.get('code') == 200:
+                    respons = {
+                        'respons': 200,
+                        'message': f'Авторизация прошла успешная.Добро пожаловать в чат {ans.get("user")} '
+                    }
+                else:
+                    respons = {
+                        'respons': ans.get('code'),
+                        'message': f'Ошибка авторизации пользователя {ans.get("user")} в базе не существует '
+                    }
+
+                client.send(pickle.dumps(respons))
+                client.close()
+            except OSError as ans:
+                print(ans)
+
 
     def client(self, msg, name, password):
-        self.soc.connect(('localhost', self.port))
-        message = {
-            'action': 'authenticate',
-            'time': time.time(),
-            'user': {'name': name,
-                     'password': password},
-            'messages': msg}
-        self.soc.send(pickle.dumps(message))
-        data = self.soc.recv(1024)
-        print('Сообщение от сервера', pickle.loads(data))
-        self.soc.close()
 
+            self.soc.connect(('localhost', self.port))
+            message = {
+                'action': 'authenticate',
+                'time': time.time(),
+                'user': {'name': name,
+                         'password': password},
+                'messages': msg}
+            self.soc.send(pickle.dumps(message))
+            data = self.soc.recv(1024)
+            print('Сообщение от сервера', pickle.loads(data))
+            self.soc.close()
