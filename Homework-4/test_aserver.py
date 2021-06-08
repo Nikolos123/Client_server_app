@@ -4,13 +4,14 @@ from ClientServer import *
 
 
 def main():
-    # test_error_server()
+    ' did two functions. One start one not start'
+    test_error_server()
     test_server()
 
 
-# def test_error_server():
-#     start_server = ClientServerSocket()
-#     start_server.server('test')
+def test_error_server():
+    start_server = ClientServerSocket()
+    start_server.server('test','ttt')
 
 
 def test_server():

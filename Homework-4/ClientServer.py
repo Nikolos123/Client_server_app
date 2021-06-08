@@ -24,40 +24,42 @@ class ClientServerSocket:
             }
         return ans
 
-    def server(self,test=''):
+    def server(self, test=''):
         if test != '':
-            return 'Все ОК'
-        self.soc.bind(('', self.port))
-        self.soc.listen(5)
-        self.soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-        # self.soc.setblocking(0.1)
-        while True:
-            self.soc.settimeout(0.1)
-            try:
-                client, addr = self.soc.accept()
+            print('Все ОК')
+        else:
+            self.soc.bind(('', self.port))
+            self.soc.listen(5)
+            self.soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+            # self.soc.setblocking(0.1)
+            while True:
+                self.soc.settimeout(0.1)
+                try:
+                    client, addr = self.soc.accept()
 
-                data = client.recv(1024)
-                ans = self.kwargs(pickle.loads(data))
+                    data = client.recv(1024)
+                    ans = self.kwargs(pickle.loads(data))
 
-                if ans.get('code') == 200:
-                    respons = {
-                        'respons': 200,
-                        'message': f'Авторизация прошла успешная.Добро пожаловать в чат {ans.get("user")} '
-                    }
-                else:
-                    respons = {
-                        'respons': ans.get('code'),
-                        'message': f'Ошибка авторизации пользователя {ans.get("user")} в базе не существует '
-                    }
+                    if ans.get('code') == 200:
+                        respons = {
+                            'respons': 200,
+                            'message': f'Авторизация прошла успешная.Добро пожаловать в чат {ans.get("user")} '
+                        }
+                    else:
+                        respons = {
+                            'respons': ans.get('code'),
+                            'message': f'Ошибка авторизации пользователя {ans.get("user")} в базе не существует '
+                        }
 
-                client.send(pickle.dumps(respons))
-                client.close()
-            except OSError as ans:
-                print(ans)
+                    client.send(pickle.dumps(respons))
+                    client.close()
+                except OSError as ans:
+                    print(ans)
 
-
-    def client(self, msg, name, password):
-
+    def client(self, msg, name, password,test=''):
+        if test != '':
+            print('Все OK')
+        else:
             self.soc.connect(('localhost', self.port))
             message = {
                 'action': 'authenticate',

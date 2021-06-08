@@ -1,6 +1,7 @@
 from ClientServer import *
 
 def main():
+    "did three functions  the one no start"
     test_client()
     test_auth_client()
     test_client_error()
@@ -10,14 +11,14 @@ def test_client():
         name = 'Nikolay'
         password = '1111'
         start_client = ClientServerSocket()
-        start_client.client('', name, password)
+        start_client.client('', name, password,'test')
 
 
 def test_auth_client():
         name = 'Nil'
         password = '1111'
         start_client = ClientServerSocket()
-        start_client.client('', name, password)
+        start_client.client('', name, password,'test')
 
 def test_client_error():
 
