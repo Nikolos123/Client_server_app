@@ -1,6 +1,6 @@
 from time import sleep
 
-from ClientServer import *
+from Server_models import *
 
 
 def main():
@@ -10,13 +10,13 @@ def main():
 
 
 def test_error_server():
-    start_server = ClientServerSocket()
-    start_server.server('test','ttt')
+    start_server = ServerSocket()
+    assert start_server.server('test','ttt') == 'Все ОК'
 
 
 def test_server():
-    start_server = ClientServerSocket()
-    print(start_server.server('test'))
+    start_server = ServerSocket()
+    assert start_server.server('test') == 'Все ОК'
 
 
 if __name__ == '__main__':

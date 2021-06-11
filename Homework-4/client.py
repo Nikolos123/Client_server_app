@@ -1,4 +1,4 @@
-from ClientServer import *
+from Client_models import *
 
 
 def main():
@@ -7,7 +7,7 @@ def main():
         name = input(' Введите name ')
         password = input(' Введите password ')
         # message = input(' Введите сообщение ')
-        start_client = ClientServerSocket()
+        start_client = ClientSocket()
         start_client.client('', name, password)
 
 

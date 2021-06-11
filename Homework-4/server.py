@@ -1,9 +1,9 @@
-from ClientServer import *
+from Server_models import *
 
 
 
 def main():
-    start_server = ClientServerSocket()
+    start_server = ServerSocket()
     start_server.server()
 
 

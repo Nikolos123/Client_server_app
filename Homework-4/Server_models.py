@@ -3,7 +3,7 @@ import time
 import pickle
 
 
-class ClientServerSocket:
+class ServerSocket:
 
     def __init__(self):
         self.port = 7777
@@ -26,7 +26,7 @@ class ClientServerSocket:
 
     def server(self, test=''):
         if test != '':
-            print('Все ОК')
+            return 'Все ОК'
         else:
             self.soc.bind(('', self.port))
             self.soc.listen(5)
@@ -55,19 +55,3 @@ class ClientServerSocket:
                     client.close()
                 except OSError as ans:
                     print(ans)
-
-    def client(self, msg, name, password,test=''):
-        if test != '':
-            print('Все OK')
-        else:
-            self.soc.connect(('localhost', self.port))
-            message = {
-                'action': 'authenticate',
-                'time': time.time(),
-                'user': {'name': name,
-                         'password': password},
-                'messages': msg}
-            self.soc.send(pickle.dumps(message))
-            data = self.soc.recv(1024)
-            print('Сообщение от сервера', pickle.loads(data))
-            self.soc.close()
