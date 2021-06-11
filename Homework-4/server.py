@@ -1,8 +1,7 @@
 from Server_models import *
 
 
-
-def main():
+def main() -> None:
     start_server = ServerSocket()
     start_server.server()
 

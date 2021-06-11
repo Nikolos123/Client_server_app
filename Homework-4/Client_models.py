@@ -24,3 +24,4 @@ class ClientSocket:
             data = self.soc.recv(1024)
             print('Сообщение от сервера', pickle.loads(data))
             self.soc.close()
+            return pickle.loads(data).get('respons')

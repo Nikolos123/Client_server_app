@@ -24,19 +24,21 @@ class ServerSocket:
             }
         return ans
 
-    def server(self, test=''):
-        if test != '':
-            return 'Все ОК'
+    def server(self, test):
+        if test:
+            return test
         else:
             self.soc.bind(('', self.port))
             self.soc.listen(5)
             self.soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-            # self.soc.setblocking(0.1)
+            self.soc.settimeout(0.1)
             while True:
-                self.soc.settimeout(0.1)
                 try:
                     client, addr = self.soc.accept()
-
+                except OSError:
+                    client = ''
+                    pass
+                if client:
                     data = client.recv(1024)
                     ans = self.kwargs(pickle.loads(data))
 
@@ -53,5 +55,3 @@ class ServerSocket:
 
                     client.send(pickle.dumps(respons))
                     client.close()
-                except OSError as ans:
-                    print(ans)

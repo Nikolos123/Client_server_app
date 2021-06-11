@@ -1,38 +1,22 @@
 from Client_models import *
 
 
-def main():
-    "did three functions  the one no start"
-    test_client()
-    test_auth_client()
-    test_client_error()
-
-
-def test_client():
-    name = 'Nikolay'
-    password = '1111'
-    start_client = ClientSocket()
-    assert start_client.client('', name, password, 'test') == ('Все ОК')
-
-
-def test_auth_client():
+def test_client_401() -> None:
     name = 'Nil'
     password = '1111'
     start_client = ClientSocket()
-    start_client.client('', name, password, 'test')
-    assert start_client.client('', name, password, 'test') == ('Все ОК')
+    assert start_client.client('', name, password) == (401)
 
 
-def test_client_error():
+def test_client_error() -> None:
     name = 'Nikolay'
-    password = '1111'.encode('utf-8')
-
+    password = '1111'
     start_client = ClientSocket()
-    assert start_client.client() == ('Все ОК')
+    assert start_client.client('', name, password) == (201)
 
 
-if __name__ == '__main__':
-    try:
-        main()
-    except Exception as ans:
-        print(ans)
+def test_client_200() -> None:
+    name = 'Nikolay'
+    password = '1111'
+    start_client = ClientSocket()
+    assert start_client.client('', name, password) == (200)

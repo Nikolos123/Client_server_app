@@ -1,7 +1,7 @@
 from Client_models import *
 
 
-def main():
+def main() ->None:
     while True:
         # Ну тут уже можно задавать любые функции и обрабатывать их
         name = input(' Введите name ')
