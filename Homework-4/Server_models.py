@@ -24,7 +24,7 @@ class ServerSocket:
             }
         return ans
 
-    def server(self, test):
+    def server(self, test=False):
         if test:
             return test
         else:
