@@ -1,5 +1,7 @@
-from Server_models import *
+import logging
 
+from Server_models import *
+logger = logging.getLogger('mes.server')
 
 def main() -> None:
     start_server = ServerSocket()

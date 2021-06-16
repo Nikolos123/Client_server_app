@@ -10,7 +10,7 @@ log_handler = TimedRotatingFileHandler('client.log', when='D',
                                        backupCount=20)
 log_handler.setFormatter(_format)
 
-logger = logging.getLogger('messenger.client')
+logger = logging.getLogger('mes.client')
 logger.setLevel(logging.INFO)
 logger.addHandler(log_handler)
 

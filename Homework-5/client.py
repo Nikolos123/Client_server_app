@@ -1,7 +1,7 @@
 from Client_models import *
 import logging
 
-logger = logging.getLogger('messenger')
+logger = logging.getLogger('mes.client')
 
 def main() ->None:
     while True:
