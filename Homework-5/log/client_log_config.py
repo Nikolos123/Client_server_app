@@ -1,16 +1,14 @@
 import logging
-from logging.handlers import TimedRotatingFileHandler
 
 # added format messages
 _format = logging.Formatter(
     '%(asctime)-10s %(levelname)-10s %(module)s %(message)s')
 # added file_name count_copy and other params
 
-log_handler = TimedRotatingFileHandler('client.log', when='D',
-                                       backupCount=20)
+log_handler = logging.FileHandler('log/client.log', encoding='utf-8')
 log_handler.setFormatter(_format)
-
-logger = logging.getLogger('messenger.client')
+# need import  in modul for work
+logger = logging.getLogger('client')
 logger.setLevel(logging.INFO)
 logger.addHandler(log_handler)
 

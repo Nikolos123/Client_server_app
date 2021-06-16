@@ -1,7 +1,7 @@
 from Client_models import *
 import logging
-
-logger = logging.getLogger('messenger')
+import log.client_log_config
+logger = logging.getLogger('client')
 
 def main() ->None:
     while True:
@@ -20,4 +20,4 @@ if __name__ == '__main__':
         logger.info(f'Запуск Клиента')
         main()
     except Exception as ans:
-        logger.critical('Ошибка запуска')
+        logger.critical(f'Ошибка запуска {ans}')

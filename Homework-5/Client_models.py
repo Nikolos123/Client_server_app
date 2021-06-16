@@ -1,9 +1,10 @@
 from socket import AF_INET, SOCK_STREAM, socket, SOL_SOCKET, SO_REUSEADDR
 import time
 import pickle
-import logging.config
+import logging
 
-logger = logging.getLogger('messenger.client')
+import log.client_log_config
+logger = logging.getLogger('client')
 
 
 class ClientSocket:
