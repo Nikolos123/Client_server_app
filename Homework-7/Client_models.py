@@ -25,11 +25,13 @@ class ClientSocket:
                     data = self.soc.recv(1024)
                     logger.info(f'Сообщение получено {pickle.loads(data)}')
                 elif param == '1':
+                    # message = {
+                    #     'action': 'authenticate',
+                    #     'time': time.time(),
+                    #     'user': {'name': name,
+                    #              'password': password},
+                    #     'messages': msg}
                     message = {
-                        'action': 'authenticate',
-                        'time': time.time(),
-                        'user': {'name': name,
-                                 'password': password},
                         'messages': msg}
                     try:
                         self.soc.send(pickle.dumps(message))
