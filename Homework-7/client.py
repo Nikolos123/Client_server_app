@@ -29,8 +29,8 @@ def client() -> None:
                 logger.info(f'Получить ответ на сообщения')
                 start_client.client('', '', '', ans, soc)
             elif ans == '3':
-                logger.info(f'Начинаем закрывать соединение')
-                start_client.client('', '', '', ans, soc)
+                logger.error('Отключение успешно')
+                break
             else:
                 logger.error(f'Выбранный вариант ответа не существует в системе ')
 
