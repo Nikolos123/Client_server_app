@@ -21,11 +21,15 @@ class ClientSocket:
             self.soc.connect(('localhost', self.port))
             if param == '2':
                 data = self.soc.recv(1024).decode('utf-8')
+                print(data)
                 logger.info(f'Сообщение получено {data}')
             elif param == '1':
                 try:
                     self.soc.send(msg.encode('utf-8'))
                     logger.info(f'Сообщение отправлено {msg}')
+                    data = self.soc.recv(1024).decode('utf-8')
+                    print(data)
+                    logger.info(f'Сообщение получено {data}')
                 except pickle.PickleError:
                     logger.error('Не удалось сообщни серверу')
                 # data = self.soc.recv(1024).decode('utf-8')
