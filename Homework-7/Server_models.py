@@ -48,23 +48,6 @@ class ServerSocket:
                     sock.close()
                     all_clients.remove(sock)
 
-    @classmethod
-    def kwargs(self, colections):
-
-        if colections.get('user').get('name') == 'Nikolay' and colections.get('user').get('password') == '1111':
-            ans = {
-                'code': 200,
-                'user': colections.get('user').get('name')
-            }
-            logger.info(f'Код ответа 200 Авторизация успешна.')
-        else:
-            ans = {
-                'code': 401,
-                'user': colections.get('user').get('name')
-            }
-            logger.error(f'Код ответа 401 Авторизация не пройдена.')
-        return ans
-
     def server(self, ):
         logger.info(f'Тестовое подключения с участия сокета успешно.')
         self.soc.bind(('', self.port))
@@ -84,7 +67,7 @@ class ServerSocket:
                 logger.info(f'Получен запрос на соединение {addr}')
             finally:
                 # Проверить наличие событий ввода-вывода
-                wait = 2
+                wait = 10
                 r = []
                 w = []
                 try:

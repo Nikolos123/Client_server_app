@@ -9,36 +9,26 @@ logger = logging.getLogger('client')
 
 
 class ClientSocket:
-    def __init__(self):
-        self.port = 7777
-        self.soc = socket(AF_INET, SOCK_STREAM)
-        logger.info(f'Инициализация сокета прошла успешна.')
 
-    def client(self, msg, name, password, param, test=''):
+    def client(self, msg, name, password, param, soc):
         logger.info(f'Начинается отправка сообщения на сервер.')
-
+        # self.soc.connect(('localhost', self.port))
         try:
-            self.soc.connect(('localhost', self.port))
             if param == '2':
-                data = self.soc.recv(1024).decode('utf-8')
+                data = soc.recv(1024).decode('utf-8')
                 print(data)
                 logger.info(f'Сообщение получено {data}')
             elif param == '1':
                 try:
-                    self.soc.send(msg.encode('utf-8'))
+                    # self.soc.connect(('localhost', self.port))
+                    soc.send(msg.encode('utf-8'))
                     logger.info(f'Сообщение отправлено {msg}')
-                    data = self.soc.recv(1024).decode('utf-8')
-                    print(data)
-                    logger.info(f'Сообщение получено {data}')
                 except pickle.PickleError:
                     logger.error('Не удалось сообщни серверу')
-                # data = self.soc.recv(1024).decode('utf-8')
-                # logger.info(f'Сообщение от сервера {data}')
-
-                # return pickle.loads(data).get('respons')
+                    soc.close()
             elif param == '3':
-                self.soc.close()
-                logger.info(f'Сокет успешно закрыт')
+                logger.error('Отключение успешно')
+                soc.close()
 
         except ConnectionRefusedError:
             logger.critical('Ошибка соеденинения')
