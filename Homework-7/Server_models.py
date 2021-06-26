@@ -16,7 +16,7 @@ class ServerSocket:
         self.clients = []
         logger.info(f'Инициализация сокета прошла успешна.')
 
-    def read_requests(self,r_clients, all_clients):
+    def read_requests(self, r_clients, all_clients):
         """ Чтение запросов из списка клиентов
         """
         responses = {}  # Словарь ответов сервера вида {сокет: запрос}
@@ -31,7 +31,7 @@ class ServerSocket:
 
         return responses
 
-    def write_responses(self,requests, w_clients, all_clients):
+    def write_responses(self, requests, w_clients, all_clients):
         """ Эхо-ответ сервера клиентам, от которых были запросы
         """
 
@@ -41,6 +41,7 @@ class ServerSocket:
                     # Подготовить и отправить ответ сервера
                     resp = requests[sock].encode('utf-8')
                     # Эхо-ответ сделаем чуть непохожим на оригинал
+                    logger.info(f'Ответ Клиенту {requests[sock]}.')
                     sock.send(resp.upper())
                 except:  # Сокет недоступен, клиент отключился
                     print('Клиент {} {} отключился'.format(sock.fileno(), sock.getpeername()))
@@ -64,62 +65,34 @@ class ServerSocket:
             logger.error(f'Код ответа 401 Авторизация не пройдена.')
         return ans
 
-    def server(self, test=False):
-
-        if test:
-            logger.info(f'Тестовое подключения без участия сокета успешно.')
-            return test
-
-        else:
-            logger.info(f'Тестовое подключения с участия сокета успешно.')
-            self.soc.bind(('', self.port))
-            self.soc.listen(5)
-            self.soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-            logger.info(f'Включаем settimeout для не блокировки сокета')
-            self.soc.settimeout(0.1)
-            while True:
+    def server(self, ):
+        logger.info(f'Тестовое подключения с участия сокета успешно.')
+        self.soc.bind(('', self.port))
+        self.soc.listen(5)
+        self.soc.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        logger.info(f'Включаем settimeout для не блокировки сокета')
+        self.soc.settimeout(0.1)
+        while True:
+            try:
+                conn, addr = self.soc.accept()
+                logger.error(f'Ожидания клиента accept')
+            except OSError:
+                logger.error(f'Ошибка ожидания')  # Знаю что тут бодет большой лог Играюсь
+                pass
+            else:
+                self.clients.append(conn)
+                logger.info(f'Получен запрос на соединение {addr}')
+            finally:
+                # Проверить наличие событий ввода-вывода
+                wait = 2
+                r = []
+                w = []
                 try:
-                    conn, addr = self.soc.accept()
-                    logger.error(f'Ожидания клиента accept')
-                except OSError:
-                    logger.error(f'Ошибка ожидания')  # Знаю что тут бодет большой лог Играюсь
-                    pass
-                else:
-                    self.clients.append(conn)
-                    logger.info(f'Получен запрос на соединение {addr}')
-                finally:
-                    # Проверить наличие событий ввода-вывода
-                    wait = 10
-                    r = []
-                    w = []
-                    try:
-                        r, w, e = select.select(self.clients, self.clients, [], wait)
-                    except:
-                        pass  # Ничего не делать, если какой-то клиент отключился
+                    r, w, e = select.select(self.clients, self.clients, [], wait)
+                except:
+                    pass  # Ничего не делать, если какой-то клиент отключился
 
-                    requests = self.read_requests(r, self.clients)  # Сохраним запросы клиентов
-                    if requests:
-                        self.write_responses(requests, w, self.clients)  # Выполним отправку ответов клиентам
+                requests = self.read_requests(r, self.clients)  # Сохраним запросы клиентов
+                if requests:
+                    self.write_responses(requests, w, self.clients)  # Выполним отправку ответов клиентам
 
-                #
-                # if client:
-                #     data = client.recv(1024)
-                #     # ans = self.kwargs(pickle.loads(data))
-                #     ans = pickle.loads(data).get('messages')
-                #
-                #     # if ans.get('code') == 200:
-                #     #     respons = {
-                #     #         'respons': 200,
-                #     #         'message': f'Авторизация прошла успешная.Добро пожаловать в чат {ans.get("user")} '
-                #     #     }
-                #     #     logger.info(f'Ответ сервера {respons}')
-                #     # else:
-                #     #     respons = {
-                #     #         'respons': ans.get('code'),
-                #     #         'message': f'Ошибка авторизации пользователя {ans.get("user")} в базе не существует '
-                #     #     }
-                #     #     logger.info(f'Ответ сервера {respons}')
-                #     client.send(pickle.dumps(respons))
-                #     logger.info(f'Произошла упаковка данных и отправка данных на клиент')
-                #     client.close()
-                #     logger.info(f'Сессия закрыта')

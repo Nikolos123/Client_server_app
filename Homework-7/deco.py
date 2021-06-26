@@ -16,11 +16,11 @@ def logdec(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         # modul_name = traceback.StackSummary.extract(traceback.walk_stack(None))[0].name
-        # modul_name = getouterframes(currentframe())[1][3]
+        modul_name = getouterframes(currentframe())[1][3]
 
         logger.info(
             f'Функция с именем {func.__name__} вызвана, аргумент {args},'
-            f'{kwargs}. Вызов из {func.__module__}.')
+            f'{kwargs}. Вызов из {modul_name}.')
         return func(*args, **kwargs)
 
     return wrapper
