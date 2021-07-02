@@ -1,3 +1,5 @@
+from threading import Thread
+
 from Client_models import *
 import logging
 import log.client_log_config
@@ -38,6 +40,6 @@ def client() -> None:
 if __name__ == '__main__':
     try:
         logger.info(f'Запуск Клиента')
-        client()
+        read_write = Thread(target=client())
     except Exception as ans:
         logger.critical(f'Ошибка запуска {ans}')
