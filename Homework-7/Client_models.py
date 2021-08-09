@@ -26,9 +26,6 @@ class ClientSocket:
                 except pickle.PickleError:
                     logger.error('Не удалось сообщни серверу')
                     soc.close()
-            elif param == '3':
-                logger.error('Отключение успешно')
-                soc.close()
 
         except ConnectionRefusedError:
             logger.critical('Ошибка соеденинения')
