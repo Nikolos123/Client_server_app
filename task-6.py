@@ -5,9 +5,9 @@ import locale
 
 
 def main():
-    world = ['сетевое программирование', 'сокет', 'декоратор']
+    worlds = ['сетевое программирование', 'сокет', 'декоратор']
     with open('test_file.txt', 'w') as ans:
-        for i in world:
+        for i in worlds:
             ans.write(f'{i}\n')
 
     file_coding = locale.getdefaultlocale()

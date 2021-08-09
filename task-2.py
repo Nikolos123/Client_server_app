@@ -2,15 +2,14 @@
 # кодов (не используя методы encode и decode) и определить тип, содержимое и длину соответствующих переменных.
 
 def main():
-    worlds =  ['class','function','method']
+    worlds = ['class', 'function', 'method']
 
     for i in worlds:
-        print(f'имя : {bytes(i,encoding="utf-8")}')
-        print(f'тип : {type(bytes(i,encoding="utf-8"))}')
+        print(f'имя : {bytes(i, encoding="utf-8")}')
+        print(f'тип : {type(bytes(i, encoding="utf-8"))}')
 
 
-
-if __name__ =='__main__':
+if __name__ == '__main__':
     try:
         main()
     except Exception as ans:
